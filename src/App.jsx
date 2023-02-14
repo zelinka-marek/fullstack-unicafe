@@ -8,13 +8,19 @@ const percentageFormatter = new Intl.NumberFormat("en-US", {
   style: "percent",
 });
 
-const checkNaN = (value) => (isNaN(value) ? 0 : value);
-
 function Stats(props) {
   const { feedback } = props;
   const allFeedback = feedback.good + feedback.neutral + feedback.bad;
-  const average = checkNaN((feedback.good - feedback.bad) / allFeedback);
-  const positive = checkNaN(feedback.good / allFeedback);
+  const average = (feedback.good - feedback.bad) / allFeedback;
+  const positive = feedback.good / allFeedback;
+
+  if (allFeedback === 0) {
+    return (
+      <div style={{ color: "red" }}>
+        <em>No feedback given yet</em>
+      </div>
+    );
+  }
 
   return (
     <div>
