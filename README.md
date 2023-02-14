@@ -1,4 +1,4 @@
-# FullStack - UniCafe
+# FullStack - UniCafé
 
 These are the [FullStackOpen](https://fullstackopen.com/) learning materials. See `/src/app.jsx`.
 
