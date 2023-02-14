@@ -8,11 +8,40 @@ const percentageFormatter = new Intl.NumberFormat("en-US", {
   style: "percent",
 });
 
-export function App() {
-  const [feedback, setFeedback] = useState({ good: 6, neutral: 2, bad: 1 });
+const checkNaN = (value) => (isNaN(value) ? 0 : value);
+
+function Stats(props) {
+  const { feedback } = props;
   const allFeedback = feedback.good + feedback.neutral + feedback.bad;
-  const average = (feedback.good - feedback.bad) / allFeedback;
-  const positive = (feedback.good / allFeedback) * 100;
+  const average = checkNaN((feedback.good - feedback.bad) / allFeedback);
+  const positive = checkNaN(feedback.good / allFeedback);
+
+  return (
+    <div>
+      <div>
+        good <strong>{decimalFormatter.format(feedback.good)}</strong>
+      </div>
+      <div>
+        neutral <strong>{decimalFormatter.format(feedback.neutral)}</strong>
+      </div>
+      <div>
+        bad <strong>{decimalFormatter.format(feedback.bad)}</strong>
+      </div>
+      <div>
+        all <strong>{decimalFormatter.format(allFeedback)}</strong>
+      </div>
+      <div>
+        average <strong>{decimalFormatter.format(average)}</strong>
+      </div>
+      <div>
+        positive <strong>{percentageFormatter.format(positive)}</strong>
+      </div>
+    </div>
+  );
+}
+
+export function App() {
+  const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 });
 
   const addFeedback = (type) => {
     setFeedback((feedback) => ({
@@ -36,24 +65,7 @@ export function App() {
         </button>
       </div>
       <h2>Statistics</h2>
-      <div>
-        good <strong>{decimalFormatter.format(feedback.good)}</strong>
-      </div>
-      <div>
-        neutral <strong>{decimalFormatter.format(feedback.neutral)}</strong>
-      </div>
-      <div>
-        bad <strong>{decimalFormatter.format(feedback.bad)}</strong>
-      </div>
-      <div>
-        all <strong>{decimalFormatter.format(allFeedback)}</strong>
-      </div>
-      <div>
-        average <strong>{decimalFormatter.format(average)}</strong>
-      </div>
-      <div>
-        positive <strong>{percentageFormatter.format(positive)}</strong>
-      </div>
+      <Stats feedback={feedback} />
     </>
   );
 }
