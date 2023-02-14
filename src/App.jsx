@@ -1,7 +1,18 @@
 import { useState } from "react";
 
+const decimalFormatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+});
+
+const percentageFormatter = new Intl.NumberFormat("en-US", {
+  style: "percent",
+});
+
 export function App() {
-  const [feedback, setFeedback] = useState({ good: 0, neutral: 0, bad: 0 });
+  const [feedback, setFeedback] = useState({ good: 6, neutral: 2, bad: 1 });
+  const allFeedback = feedback.good + feedback.neutral + feedback.bad;
+  const average = (feedback.good - feedback.bad) / allFeedback;
+  const positive = (feedback.good / allFeedback) * 100;
 
   const addFeedback = (type) => {
     setFeedback((feedback) => ({
@@ -26,13 +37,22 @@ export function App() {
       </div>
       <h2>Statistics</h2>
       <div>
-        good <strong>{feedback.good}</strong>
+        good <strong>{decimalFormatter.format(feedback.good)}</strong>
       </div>
       <div>
-        neutral <strong>{feedback.neutral}</strong>
+        neutral <strong>{decimalFormatter.format(feedback.neutral)}</strong>
       </div>
       <div>
-        bad <strong>{feedback.bad}</strong>
+        bad <strong>{decimalFormatter.format(feedback.bad)}</strong>
+      </div>
+      <div>
+        all <strong>{decimalFormatter.format(allFeedback)}</strong>
+      </div>
+      <div>
+        average <strong>{decimalFormatter.format(average)}</strong>
+      </div>
+      <div>
+        positive <strong>{percentageFormatter.format(positive)}</strong>
       </div>
     </>
   );
